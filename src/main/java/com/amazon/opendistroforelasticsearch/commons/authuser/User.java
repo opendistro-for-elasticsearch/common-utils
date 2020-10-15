@@ -76,9 +76,9 @@ final public class User implements Writeable, ToXContent {
     }
 
     @SuppressWarnings("unchecked")
-    public User(String json) throws IOException {
+    public User(String json) {
         if (Strings.isNullOrEmpty(json)) {
-            throw new IOException("Response json cannot be null");
+            throw new IllegalArgumentException("Response json cannot be null");
         }
 
         Map<String, Object> mapValue = XContentHelper.convertToMap(JsonXContent.jsonXContent, json, false);

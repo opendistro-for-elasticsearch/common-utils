@@ -15,8 +15,6 @@
 
 package com.amazon.opendistroforelasticsearch.commons.authuser;
 
-import java.io.IOException;
-
 import org.elasticsearch.client.Request;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.common.Strings;
@@ -26,9 +24,9 @@ import com.amazon.opendistroforelasticsearch.commons.ConfigConstants;
 public class AuthUserRequestBuilder {
     private final String auth;
 
-    public AuthUserRequestBuilder(String auth) throws IOException {
+    public AuthUserRequestBuilder(String auth) {
         if (Strings.isNullOrEmpty(auth)) {
-            throw new IOException("Authorization token cannot be null");
+            throw new IllegalArgumentException("Authorization token cannot be null");
         }
         this.auth = auth;
     }
