@@ -15,6 +15,7 @@
 
 package com.amazon.opendistroforelasticsearch.commons.authuser;
 
+import static com.amazon.opendistroforelasticsearch.commons.ConfigConstants.OPENDISTRO_SECURITY_USER_AND_ROLES;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -93,7 +94,7 @@ public class UserTest {
     @Test
     public void testParseUserStringEmpty() {
         ThreadContext tc = new ThreadContext(Settings.EMPTY);
-        String str = tc.getTransient("user_roles_string");
+        String str = tc.getTransient(OPENDISTRO_SECURITY_USER_AND_ROLES);
         User user = User.parse(str);
         assertEquals(null, user);
     }
@@ -101,8 +102,8 @@ public class UserTest {
     @Test
     public void testParseUserStringName() {
         ThreadContext tc = new ThreadContext(Settings.EMPTY);
-        tc.putTransient("user_roles_string", "myuser||");
-        String str = tc.getTransient("user_roles_string");
+        tc.putTransient(OPENDISTRO_SECURITY_USER_AND_ROLES, "myuser||");
+        String str = tc.getTransient(OPENDISTRO_SECURITY_USER_AND_ROLES);
         User user = User.parse(str);
 
         assertEquals("myuser", user.getName());
@@ -113,8 +114,8 @@ public class UserTest {
     @Test
     public void testParseUserStringNobackendRoles() {
         ThreadContext tc = new ThreadContext(Settings.EMPTY);
-        tc.putTransient("user_roles_string", "myuser||role1,role2");
-        String str = tc.getTransient("user_roles_string");
+        tc.putTransient(OPENDISTRO_SECURITY_USER_AND_ROLES, "myuser||role1,role2");
+        String str = tc.getTransient(OPENDISTRO_SECURITY_USER_AND_ROLES);
         User user = User.parse(str);
 
         assertEquals("myuser", user.getName());
@@ -125,8 +126,8 @@ public class UserTest {
     @Test
     public void testParseUserStringNoRoles() {
         ThreadContext tc = new ThreadContext(Settings.EMPTY);
-        tc.putTransient("user_roles_string", "myuser|brole1,brole2|");
-        String str = tc.getTransient("user_roles_string");
+        tc.putTransient(OPENDISTRO_SECURITY_USER_AND_ROLES, "myuser|brole1,brole2|");
+        String str = tc.getTransient(OPENDISTRO_SECURITY_USER_AND_ROLES);
         User user = User.parse(str);
 
         assertEquals("myuser", user.getName());
@@ -137,8 +138,8 @@ public class UserTest {
     @Test
     public void testParseUserStringMalformed() {
         ThreadContext tc = new ThreadContext(Settings.EMPTY);
-        tc.putTransient("user_roles_string", "|backendrole1,backendrole2|role1,role2");
-        String str = tc.getTransient("user_roles_string");
+        tc.putTransient(OPENDISTRO_SECURITY_USER_AND_ROLES, "|backendrole1,backendrole2|role1,role2");
+        String str = tc.getTransient(OPENDISTRO_SECURITY_USER_AND_ROLES);
         User user = User.parse(str);
         assertEquals(null, user);
     }
