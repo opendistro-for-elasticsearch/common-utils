@@ -16,10 +16,10 @@
 package com.amazon.opendistroforelasticsearch.commons.authuser;
 
 import static com.amazon.opendistroforelasticsearch.commons.ConfigConstants.OPENDISTRO_SECURITY_USER_INFO_THREAD_CONTEXT;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -29,7 +29,7 @@ import org.elasticsearch.common.io.stream.BytesStreamOutput;
 import org.elasticsearch.common.io.stream.StreamInput;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.util.concurrent.ThreadContext;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class UserTest {
 
@@ -48,7 +48,7 @@ public class UserTest {
         assertEquals(0, user.getBackendRoles().size());
         assertEquals(0, user.getRoles().size());
         assertEquals(0, user.getCustomAttNames().size());
-        assertEquals(null, user.getRequestedTenant());
+        assertNull(user.getRequestedTenant());
     }
 
     @Test
@@ -104,8 +104,8 @@ public class UserTest {
         user.writeTo(out);
         StreamInput in = StreamInput.wrap(out.bytes().toBytesRef().bytes);
         User newUser = new User(in);
-        assertEquals("Round tripping User doesn't work", user.toString(), newUser.toString());
-        assertEquals("Round tripping User doesn't work", user, newUser);
+        assertEquals(user.toString(), newUser.toString(), "Round tripping User doesn't work");
+        assertEquals(user, newUser, "Round tripping User doesn't work");
     }
 
     @Test
@@ -115,8 +115,8 @@ public class UserTest {
         user.writeTo(out);
         StreamInput in = StreamInput.wrap(out.bytes().toBytesRef().bytes);
         User newUser = new User(in);
-        assertEquals("Round tripping User doesn't work", user.toString(), newUser.toString());
-        assertEquals("Round tripping User doesn't work", user, newUser);
+        assertEquals(user.toString(), newUser.toString(), "Round tripping User doesn't work");
+        assertEquals(user, newUser, "Round tripping User doesn't work");
     }
 
     @Test
@@ -139,7 +139,7 @@ public class UserTest {
         ThreadContext tc = new ThreadContext(Settings.EMPTY);
         String str = tc.getTransient(OPENDISTRO_SECURITY_USER_INFO_THREAD_CONTEXT);
         User user = User.parse(str);
-        assertEquals(null, user);
+        assertNull(user);
     }
 
     @Test
@@ -210,6 +210,6 @@ public class UserTest {
         tc.putTransient(OPENDISTRO_SECURITY_USER_INFO_THREAD_CONTEXT, "|backendrole1,backendrole2|role1,role2");
         String str = tc.getTransient(OPENDISTRO_SECURITY_USER_INFO_THREAD_CONTEXT);
         User user = User.parse(str);
-        assertEquals(null, user);
+        assertNull(user);
     }
 }

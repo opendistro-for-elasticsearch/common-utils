@@ -15,14 +15,16 @@
 
 package com.amazon.opendistroforelasticsearch.commons.rest;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import java.io.File;
 import java.nio.file.Paths;
 
 import org.elasticsearch.ElasticsearchException;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.common.settings.Settings;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class SecureRestClientBuilderTest {
 
@@ -31,7 +33,7 @@ public class SecureRestClientBuilderTest {
         Settings settings = Settings.builder().put("http.port", 9200).put("opendistro_security.ssl.http.enabled", false).build();
         SecureRestClientBuilder builder = new SecureRestClientBuilder(settings, null);
         RestClient restClient = builder.build();
-        Assert.assertNotNull(restClient);
+        Assertions.assertNotNull(restClient);
         restClient.close();
     }
 
@@ -49,7 +51,7 @@ public class SecureRestClientBuilderTest {
 
         SecureRestClientBuilder builder = new SecureRestClientBuilder(settings, Paths.get(configFolder));
         RestClient restClient = builder.build();
-        Assert.assertNotNull(restClient);
+        Assertions.assertNotNull(restClient);
         restClient.close();
     }
 
@@ -61,14 +63,16 @@ public class SecureRestClientBuilderTest {
         new SecureRestClientBuilder(settings, Paths.get(configFolder)).build();
     }
 
-    @Test(expected = ElasticsearchException.class)
+    @Test
     public void testMissingConfigPath() throws Exception {
-        Settings settings = Settings
-            .builder()
-            .put("http.port", 9200)
-            .put("opendistro_security.ssl.http.enabled", true)
-            .put("opendistro_security.ssl.http.pemcert_filepath", "sample.pem")
-            .build();
-        new SecureRestClientBuilder(settings, Paths.get("sample.pem")).build();
+        assertThrows(ElasticsearchException.class, () -> {
+            Settings settings = Settings
+                .builder()
+                .put("http.port", 9200)
+                .put("opendistro_security.ssl.http.enabled", true)
+                .put("opendistro_security.ssl.http.pemcert_filepath", "sample.pem")
+                .build();
+            new SecureRestClientBuilder(settings, Paths.get("sample.pem")).build();
+        });
     }
 }
