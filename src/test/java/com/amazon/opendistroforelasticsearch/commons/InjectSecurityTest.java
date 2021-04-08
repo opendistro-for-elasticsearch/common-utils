@@ -18,16 +18,15 @@ package com.amazon.opendistroforelasticsearch.commons;
 import static com.amazon.opendistroforelasticsearch.commons.ConfigConstants.INJECTED_USER;
 import static com.amazon.opendistroforelasticsearch.commons.ConfigConstants.OPENDISTRO_SECURITY_INJECTED_ROLES;
 import static com.amazon.opendistroforelasticsearch.commons.ConfigConstants.OPENDISTRO_SECURITY_USE_INJECTED_USER_FOR_PLUGINS;
-import static junit.framework.TestCase.assertNotNull;
-import static junit.framework.TestCase.assertNull;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.util.Arrays;
 
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.util.concurrent.ThreadContext;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class InjectSecurityTest {
 
@@ -37,7 +36,7 @@ public class InjectSecurityTest {
         try (InjectSecurity helper = new InjectSecurity("test-name", Settings.EMPTY, tc)) {
             helper.inject("", null);
         }
-        Assert.assertNull(tc.getTransient(OPENDISTRO_SECURITY_INJECTED_ROLES));
+        assertNull(tc.getTransient(OPENDISTRO_SECURITY_INJECTED_ROLES));
     }
 
     @Test
