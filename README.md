@@ -1,6 +1,6 @@
-# Open Distro for Elasticsearch Common-Utils 
+# Open Distro Common-Utils 
 
-Open Distro for Elasticsearch Common-Utils is focused on providing reusable Java components for Elasticsearch plugins.
+Open Distro Common-Utils is focused on providing reusable Java components for Elasticsearch plugins.
 
 This library is composed of following parts:
 1. SecureRestClientBuilder - provides methods to create secure low-level and high-level REST client. This is 
